@@ -1,0 +1,34 @@
+<table id="scoreboard" class="scoreboard table table-bordered table-striped table-condensed">
+	<caption>
+		<h3>Scoreboard</h3>
+	</caption>
+	<thead>
+		<tr>
+			<th></th>
+			{{#players}}
+				<th class="new-player player-{{username}}">{{name}}</th>
+			{{/players}}
+		</tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<th><small>Score</small></th>
+			{{#players}}
+				<th class="new-player player-{{username}}"></th>
+			{{/players}}
+		</tr>
+	</tfoot>
+	<tbody>
+		{{#rounds}}
+			<tr>
+				<th>{{round}}</th>
+				{{#players}}
+					<td class="new-player player-{{username}}">
+						<small>&nbsp;bid:&nbsp;</small><span class="bid-num"></span><br>
+						<small>take:&nbsp;</small><strong class="take-num"></strong>
+					</td>
+				{{/players}}
+			</tr>
+		{{/rounds}}
+	</tbody>
+</table>

@@ -1,0 +1,223 @@
+/* clubs */
+
+.clubs.ace {
+	background-position: 0 0;
+}
+
+.clubs.two {
+	background-position: -71px 0;
+}
+
+.clubs.three {
+	background-position: -142px 0;
+}
+
+.clubs.four {
+	background-position: -213px 0;
+}
+
+.clubs.five {
+	background-position: -284px 0;
+}
+
+.clubs.six {
+	background-position: -355px 0;
+}
+
+.clubs.seven {
+	background-position: -426px 0;
+}
+
+.clubs.eight {
+	background-position: -497px 0;
+}
+
+.clubs.nine {
+	background-position: -568px 0;
+}
+
+.clubs.ten {
+	background-position: -639px 0;
+}
+
+.clubs.jack {
+	background-position: -710px 0;
+}
+
+.clubs.queen {
+	background-position: -781px 0;
+}
+
+.clubs.king {
+	background-position: -852px 0;
+}
+
+/* /clubs */
+
+/* spades */
+
+.spades.ace {
+	background-position: 0 -95px;
+}
+
+.spades.two {
+	background-position: -71px -95px;
+}
+
+.spades.three {
+	background-position: -142px -95px;
+}
+
+.spades.four {
+	background-position: -213px -95px;
+}
+
+.spades.five {
+	background-position: -284px -95px;
+}
+
+.spades.six {
+	background-position: -355px -95px;
+}
+
+.spades.seven {
+	background-position: -426px -95px;
+}
+
+.spades.eight {
+	background-position: -497px -95px;
+}
+
+.spades.nine {
+	background-position: -568px -95px;
+}
+
+.spades.ten {
+	background-position: -639px -95px;
+}
+
+.spades.jack {
+	background-position: -710px -95px;
+}
+
+.spades.queen {
+	background-position: -781px -95px;
+}
+
+.spades.king {
+	background-position: -852px -95px;
+}
+
+/* /spades */
+
+/* hearts */
+
+.hearts.ace {
+	background-position: 0 -190px;
+}
+
+.hearts.two {
+	background-position: -71px -190px;
+}
+
+.hearts.three {
+	background-position: -142px -190px;
+}
+
+.hearts.four {
+	background-position: -213px -190px;
+}
+
+.hearts.five {
+	background-position: -284px -190px;
+}
+
+.hearts.six {
+	background-position: -355px -190px;
+}
+
+.hearts.seven {
+	background-position: -426px -190px;
+}
+
+.hearts.eight {
+	background-position: -497px -190px;
+}
+
+.hearts.nine {
+	background-position: -568px -190px;
+}
+
+.hearts.ten {
+	background-position: -639px -190px;
+}
+
+.hearts.jack {
+	background-position: -710px -190px;
+}
+
+.hearts.queen {
+	background-position: -781px -190px;
+}
+
+.hearts.king {
+	background-position: -852px -190px;
+}
+
+/* /hearts */
+
+/* diamonds */
+
+.diamonds.ace {
+	background-position: 0 -285px;
+}
+
+.diamonds.two {
+	background-position: -71px -285px;
+}
+
+.diamonds.three {
+	background-position: -142px -285px;
+}
+
+.diamonds.four {
+	background-position: -213px -285px;
+}
+
+.diamonds.five {
+	background-position: -284px -285px;
+}
+
+.diamonds.six {
+	background-position: -355px -285px;
+}
+
+.diamonds.seven {
+	background-position: -426px -285px;
+}
+
+.diamonds.eight {
+	background-position: -497px -285px;
+}
+
+.diamonds.nine {
+	background-position: -568px -285px;
+}
+
+.diamonds.ten {
+	background-position: -639px -285px;
+}
+
+.diamonds.jack {
+	background-position: -710px -285px;
+}
+
+.diamonds.queen {
+	background-position: -781px -285px;
+}
+
+.diamonds.king {
+	background-position: -852px -285px;
+}
+
+/* /diamonds */

@@ -1,0 +1,57 @@
+/* deal a card */
+
+@-webkit-keyframes deal-a-card {
+    from { opacity: 0; }
+    to   { opacity: 0.7; }
+}
+@-moz-keyframes deal-a-card {
+    from { opacity: 0; }
+    to   { opacity: 0.7; }
+}
+@-o-keyframes deal-a-card {
+    from { opacity: 0; }
+    to   { opacity: 0.7; }
+}
+@keyframes deal-a-card {
+    from { opacity: 0; }
+    to   { opacity: 0.7; }
+}
+
+/* deal a card */
+
+/* show question display */
+
+@-webkit-keyframes question-display {
+    0%   { opacity: 0; }
+    8%   { opacity: 0; }
+    20%  { opacity: 1; }
+    85%  { opacity: 1; }
+    98%  { opacity: 0; }
+    100% { opacity: 0; }
+}
+@-moz-keyframes shake-in {
+    0%   { opacity: 0; }
+    8%   { opacity: 0; }
+    20%  { opacity: 1; }
+    85%  { opacity: 1; }
+    98%  { opacity: 0; }
+    100% { opacity: 0; }
+}
+@-o-keyframes shake-in {
+    0%   { opacity: 0; }
+    8%   { opacity: 0; }
+    20%  { opacity: 1; }
+    85%  { opacity: 1; }
+    98%  { opacity: 0; }
+    100% { opacity: 0; }
+}
+@keyframes shake-in {
+    0%   { opacity: 0; }
+    8%   { opacity: 0; }
+    20%  { opacity: 1; }
+    85%  { opacity: 1; }
+    98%  { opacity: 0; }
+    100% { opacity: 0; }
+}
+
+/* /show question display */
