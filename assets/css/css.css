@@ -2,6 +2,8 @@
 
 @import url('plugins/bootstrap.css');
 
+@import url('local/sprites.css');
+
 @import url('local/playing_cards_sprite.css');
 
 @import url('local/style.css');

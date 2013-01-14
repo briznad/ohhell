@@ -13,6 +13,7 @@
         <!-- For Dev
         -->
         <link rel="stylesheet" href="assets/css/plugins/bootstrap.css">
+        <link rel="stylesheet" href="assets/css/local/sprites.css">
         <link rel="stylesheet" href="assets/css/local/playing_cards_sprite.css">
         <link rel="stylesheet" href="assets/css/local/keyframes.css">
         <link rel="stylesheet" href="assets/css/local/style.css">
@@ -25,16 +26,33 @@
         <script id="cardTable" type="text/html">
     	<div class="card-table {{playerCount}}">
 
-    		{{! if the game hasnt started, just show the players names and their place at the table }}
+    		{{! if the game hasnt started, deal out the high card deal round }}
     		{{^started}}
 
-    			{{! iterate through the players object }}
-    			{{#players}}
-	    		<div class="player">
-					<h3 class="player-name">{{name}}</h3>
-					<div class="players-hand"></div>
-				</div>
-				{{/players}}
+    			{{! iterate through the rounds object }}
+    			{{#rounds}}
+
+					{{! locate the high card deals round }}
+					{{#highCardDeals}}
+
+						{{! for the high card deal show all players cards face up }}
+						{{#players}}
+						<div class="player">
+							<h3 class="player-name">{{name}}</h3>
+							<div class="players-hand">
+
+    							{{! iterate through all cards (even though I know there is only 1 card in this round) }}
+								{{#cards}}
+								<div class="card {{suit}} {{card}}"></div>
+	    						{{/cards}}
+
+							</div>
+						</div>
+    					{{/players}}
+
+					{{/highCardDeals}}
+
+				{{/rounds}}
 
     		{{/started}}
 
@@ -47,73 +65,34 @@
     				{{! only act on the current round }}
     				{{#currentRound}}
 
-    					{{! for the first deal - high card - show all players cards face up }}
-						{{#highCard}}
+						{{#players}}
+						<div class="player">
+							<h3 class="player-name">{{name}}</h3>
+							<div class="players-hand">
 
-							{{#cardsDealt}}
-    						<div class="player">
-								<h3 class="player-name">{{name}}</h3>
-								<div class="players-hand">
+								{{! show only the current players cards face up }}
+								{{#currentUser}}
 
-	    							{{! iterate through all cards }}
+									{{! iterate through all cards }}
 									{{#cards}}
-
-										{{! only show those set as displayed }}
-										{{#displayed}}
-										<div class="card {{suit}} {{card}}"></div>
-										{{/displayed}}
-
+									<div class="card {{suit}} {{card}}"></div>
 		    						{{/cards}}
 
-								</div>
+								{{/currentUser}}
+
+								{{! for other players show cards face down }}
+								{{^currentUser}}
+
+									{{! iterate through all cards }}
+									{{#cards}}
+									<div class="card"></div>
+		    						{{/cards}}
+
+								{{/currentUser}}
+
 							</div>
-	    					{{/cardsDealt}}
-
-						{{/highCard}}
-
-						{{! for subsequent deals, show only the current players cards face up }}
-						{{^highCard}}
-
-							{{#cardsDealt}}
-    						<div class="player">
-								<h3 class="player-name">{{name}}</h3>
-								<div class="players-hand">
-
-									{{! for current player, show all cards face up }}
-									{{#currentUser}}
-
-										{{! iterate through all cards }}
-										{{#cards}}
-
-											{{! only show those set as displayed }}
-											{{#displayed}}
-											<div class="card {{suit}} {{card}}"></div>
-											{{/displayed}}
-
-			    						{{/cards}}
-
-									{{/currentUser}}
-
-									{{! for other players show cards face down }}
-									{{^currentUser}}
-
-										{{! iterate through all cards }}
-										{{#cards}}
-
-											{{! only show those set as displayed }}
-											{{#displayed}}
-											<div class="card"></div>
-											{{/displayed}}
-
-			    						{{/cards}}
-
-									{{/currentUser}}
-
-								</div>
-							</div>
-	    					{{/cardsDealt}}
-
-						{{/highCard}}
+						</div>
+						{{/players}}
 
     				{{/currentRound}}
 
@@ -138,9 +117,10 @@
 					<tr>
 						<th></th>
 
-						{{#players}}
+						{{! iterate through the players }}
+						{{#playerList}}
 						<th class="new-player" colspan="2">{{name}}</th>
-						{{/players}}
+						{{/playerList}}
 
 					</tr>
 				</thead>
@@ -148,40 +128,47 @@
 					<tr>
 						<th><small>Score</small></th>
 
-						{{#players}}
+						{{! iterate through the players }}
+						{{#playerList}}
 						<th class="new-player" colspan="2">{{score}}</th>
-						{{/players}}
+						{{/playerList}}
 
 					</tr>
 				</tfoot>
 				<tbody>
 
+					{{! iterate through the rounds }}
 					{{#rounds}}
-					<tr>
-						<th rowspan="2">{{cards}}</th>
 
-						{{#players}}
-						<td class="bid-take-question new-player">
-							<small>bid:</small>
-						</td>
-						<td class="bid-take-answer">
-							<span class="bid-num">&nbsp;</span>
-						</td>
-						{{/players}}
+						{{! only show the round if it has started }}
+						{{#started}}
+						<tr>
+							<th rowspan="2">{{cards}}</th>
 
-					</tr>
-					<tr>
+							{{#players}}
+							<td class="bid-take-question new-player">
+								<small>bid:</small>
+							</td>
+							<td class="bid-take-answer">
+								<span class="bid-num">{{bid}}</span>
+							</td>
+							{{/players}}
 
-						{{#players}}
-						<td class="bid-take-question new-player">
-							<small>take:</small>
-						</td>
-						<td class="bid-take-answer">
-							<strong class="take-num">&nbsp;</strong>
-						</td>
-						{{/players}}
+						</tr>
+						<tr>
 
-					</tr>
+							{{#players}}
+							<td class="bid-take-question new-player">
+								<small>take:</small>
+							</td>
+							<td class="bid-take-answer">
+								<strong class="take-num">{{take}}</strong>
+							</td>
+							{{/players}}
+
+						</tr>
+						{{/started}}
+
 					{{/rounds}}
 
 				</tbody>
@@ -199,7 +186,7 @@
         <div class="page-title row-fluid">
 			<div class="span10 offset1">
 				<h1>Oh Hell</h1>
-				<h2>Oh Pshaw, Up the River, Get Fred, Up and Down the River, Bumble, Nomination Whist, Diminishing Whist, Vanishing Whist, Hell Yeah!, Peanuts, Stinky Fingers, Gary's Game, Diminishing Bridge, Shit On Your Neighbor, Screw Your Neighbor, O'Shay, Juego de Daniel, Nah Pearse, Old Hell, German Bridge, Blackout, Blob, l'Ascenseur, Oh Shit!, Bust, Boerenbridge, 10 op en neer&hellip;<a hred="#" id="previousRoundLink" class="btn">PREV</a><a hred="#" id="advanceRoundLink" class="btn">NEXT</a></h2>
+				<h2>Oh Pshaw, Up the River, Get Fred, Up and Down the River, Bumble, Nomination Whist, Diminishing Whist, Vanishing Whist, Hell Yeah!, Peanuts, Stinky Fingers, Gary's Game, Diminishing Bridge, Shit On Your Neighbor, Screw Your Neighbor, O'Shay, Juego de Daniel, Nah Pearse, Old Hell, German Bridge, Blackout, Blob, l'Ascenseur, Oh Shit!, Bust, Boerenbridge, 10 op en neer&hellip;</h2>
 			</div>
 		</div>
 
@@ -217,7 +204,7 @@
 						<div class="control-group">
 						    <label class="control-label" for="rounds"># of Rounds</label>
 						    <div class="controls">
-						    	<select class="input-mini rounds" id="rounds" name="rounds">
+						    	<select class="input-mini rounds" id="roundsSelector" name="rounds">
 									<option>4</option>
 									<option>5</option>
 									<option>6</option>
@@ -251,6 +238,12 @@
 		</div>
 
         <div class="row-fluid" id="scoreboardContainer"></div>
+
+		<div class="dev-controls-container row-fluid">
+			<div class="span1 offset11 well">
+				<a hred="#" id="previousRoundLink" class="btn"><</a><a hred="#" id="advanceRoundLink" class="btn">></a>
+			</div>
+		</div>
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="assets/js/plugins/jquery-1.8.3.min.js"><\/script>')</script>
