@@ -56,15 +56,6 @@ body {
 	display: block;
 }
 
-.card {
-	display: inline-block;
-	width: 68px;
-	height: 92px;
-	border-radius: 5px;
-	background-position: -923px 0;
-	box-shadow: 1px 1px 8px #444;
-}
-
 /* /general page styles */
 
 /* page title styles */
@@ -256,6 +247,26 @@ body {
 	transform: rotate(180deg);
 }
 
+.card {
+	display: inline-block;
+	width: 68px;
+	height: 92px;
+	border-radius: 5px;
+	background-position: -923px 0;
+	box-shadow: 1px 1px 8px #444;
+
+	-webkit-transition: box-shadow 0.5s ease-in-out;
+    -moz-transition: box-shadow 0.5s ease-in-out;
+    -ms-transition: box-shadow 0.5s ease-in-out;
+    -o-transition: box-shadow 0.5s ease-in-out;
+    transition: box-shadow 0.5s ease-in-out;
+}
+
+.card.winner {
+	box-shadow: 1px 1px 8px #444,
+				0px 0px 40px #f5f5f5;
+}
+
 .players-hand {
 	height: 92px;
 	margin-top: 20px;
@@ -286,11 +297,11 @@ body {
 }
 
 .deal-complete .players-hand .card {
-	-webkit-transition: margin-left 0.5s ease-in;
-    -moz-transition: margin-left 0.5s ease-in;
-    -ms-transition: margin-left 0.5s ease-in;
-    -o-transition: margin-left 0.5s ease-in;
-    transition: margin-left 0.5s ease-in;
+	-webkit-transition: box-shadow 0.5s ease-in-out, margin-left 0.5s ease-in-out;
+    -moz-transition: box-shadow 0.5s ease-in-out, margin-left 0.5s ease-in-out;
+    -ms-transition: box-shadow 0.5s ease-in-out, margin-left 0.5s ease-in-out;
+    -o-transition: box-shadow 0.5s ease-in-out, margin-left 0.5s ease-in-out;
+    transition: box-shadow 0.5s ease-in-out, margin-left 0.5s ease-in-out;
 
     margin-left: -27%;
 }

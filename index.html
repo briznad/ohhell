@@ -37,7 +37,7 @@
 
 						{{! for the high card deal show all players cards face up }}
 						{{#players}}
-						<div class="player">
+						<div class="player" id="player-{{userid}}">
 							<h3 class="player-name">{{name}}</h3>
 							<div class="players-hand">
 
@@ -66,7 +66,7 @@
     				{{#currentRound}}
 
 						{{#players}}
-						<div class="player">
+						<div class="player" id="player-{{userid}}">
 							<h3 class="player-name">{{name}}</h3>
 							<div class="players-hand">
 

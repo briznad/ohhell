@@ -9,6 +9,7 @@
 	    currentUser = null, // dev - this should store something unique, such as username or user ID
 	    gameReferee = null,
     	currentRound = 0, // start the game at round 0, aka high card deal
+    	playerCount = 0, // how many players are in this game?
     	$body = null, // stubs for future jQuery object caching
     	$createGameForm = null,
     	$roundsSelector = null,
@@ -16,6 +17,7 @@
     	$cardTableContainer = null,
     	$showHideScoreboardLink = null,
     	dealDelayQueue = [],
+    	dealDelayInterval = 200, // time in miliseconds to wait between each card deal
     	dealDelayTimer = null,
     	game = {
     		started: false,
@@ -197,7 +199,7 @@
 
 			}
 
-			if (!dealDelayTimer) dealDelayTimer = setInterval(executeDelayedFunction, 200);
+			if (!dealDelayTimer) dealDelayTimer = setInterval(executeDelayedFunction, dealDelayInterval);
 
 	    },
         updateCurrentRound = function () { // run at the beginning of each round, starting with the first round fo play
@@ -345,12 +347,12 @@
     		var rounds = parseInt( $roundsSelector.val() ),
     			player = $(this).find('#player').val();
 
-    		game.playerList.push({ name: player, username: player.replace(/\s/g, '').toLowerCase(), score: 0 });
+    		game.playerList.push({ name: player, userid: player.replace(/\s/g, '').toLowerCase(), score: 0 });
 
     		_.times(( rounds * 2 ) - 1, function(n) {
 
     			var tempRoundModel = {
-						hands: [],
+						cardsPlayed: [],
 						cards: null,
 						players: null
 					};
@@ -375,13 +377,13 @@
 
     			}
 
-    			tempRoundModel.hands.length = tempRoundModel.cards; // set the length of the currently empty "hands" array to the number of cards in the round
+    			tempRoundModel.cardsPlayed.length = tempRoundModel.cards; // set the length of the currently empty "cardsPlayed" array to the number of cards in the round
 
     			game.rounds.push(tempRoundModel);
 
     		});
 
-	    	game.rounds.unshift({ cards: 1, players: null, highCardDeals: true }); // add initial high card round in the first spot in the "rounds" array
+	    	game.rounds.unshift({ highCardDeals: true, cards: 1, cardsPlayed: [], players: null }); // add initial high card round in the first spot in the "rounds" array
 
 			addPlayers();
 
@@ -400,14 +402,16 @@
 
 		_.times(7, function (n) {
 			if (n <= 1) {
-				game.playerList.unshift({ name: dummyPlayers[n], username: dummyPlayers[n].replace(/\s/g, '').toLowerCase(), score: 0 });
+				game.playerList.unshift({ name: dummyPlayers[n], userid: dummyPlayers[n].replace(/\s/g, '').toLowerCase(), score: 0 });
 			} else {
-				game.playerList.push({ name: dummyPlayers[n], username: dummyPlayers[n].replace(/\s/g, '').toLowerCase(), score: 0 });
+				game.playerList.push({ name: dummyPlayers[n], userid: dummyPlayers[n].replace(/\s/g, '').toLowerCase(), score: 0 });
 			}
 		});
 
 		// /end dev code
 
+
+		playerCount = game.playerList.length; // set the player count to the number of players in this game
 
 		dealTheRounds();
 
@@ -422,11 +426,15 @@
 				deck = freshShuffledDeck(); // grab a shuffled deck for each round's deal
 
 			value.players = _.map(game.playerList, function (item) { // populate each round with a players arr; a list of players with blank "cards"
-				return { name: item.name, username: item.username, cards: [], bid: ' ', take: 0 };
+
+				return { name: item.name, userid: item.userid, cards: [], bid: ' ', take: 0 };
+
 			});
 
 			_.each(value.players, function (value, index, list) { // pass out the number of cards for each round to each player
+
 				value.cards = deck.splice(0, thisRound.cards);
+
 			});
 
 			if (!thisRound.highCardDeals || thisRound.highCardDeals === undefined) thisRound['trump'] = deck.shift();
@@ -438,7 +446,68 @@
     },
     scoreHighCardDeal = function () {
 
+    	debugLog('score high card deal called');
 
+    	var highCardRound = game.rounds[0], // cache this out for brevity, as we'll be using it a lot in this function
+    		tieBreaker = function () { // it's a tie, deal more cards to the winners and rerun the high card deal round
+
+    			debugLog('TIE BREAKER ROUND');
+
+				var deck = freshShuffledDeck(), // grab a new shuffled deck for the extra round
+					tempWinners = _.pluck(_.filter(highCardRound.cardsPlayed, function (value) { return value.card == highCardRound.cardsPlayed[0].card; }), 'userid'),
+					tempTimer = setTimeout(function () {
+
+						// after dealing fresh cards to the tying players, send it back to the client's "show high card deal" function
+
+						showHighCardDeal();
+
+						clearTimeout(tempTimer);
+
+					}, 1000); // create a list of all players who tied
+
+				_.each(highCardRound.players, function (value, index) { // pass out the number of cards for each round to each player
+
+					value.cards = [];
+
+					if (_.contains(tempWinners, value.userid)) { // if the current user is one of the tying winners do stuff
+
+						$('#player-' + value.userid).find('.card').addClass('winner'); // highlight their current card as a winner
+
+						value.cards = deck.splice(0, 1); // then give them a new card
+
+					}
+
+				});
+
+    		};
+
+    	highCardRound.cardsPlayed = _.map(_.filter(highCardRound.players, function (value) { return value.cards.length !== 0; }), function (item) { // populate "cardsPlayed" arr with the cards dealt to each player and the userid for that player, but only if the player has a card (relevant in the tie breaker round)
+
+			return { userid: item.userid, card: item.cards[0].card }; // copy the player's cards to the "cardsPlayed" arr
+
+		});
+
+    	// sort the played cards
+		highCardRound.cardsPlayed = sortCardsByNumber(highCardRound.cardsPlayed, 'descending');
+
+		// check to make sure no one ties for high card
+		if (highCardRound.cardsPlayed[0].card == highCardRound.cardsPlayed[1].card) {
+
+			tempTimer = setTimeout(tieBreaker, (playerCount * dealDelayInterval) + 1500); // wait for the round to be dealt to all players + 1.5 second before running the tie breaker round
+
+		} else { // annoint the winner with rare oils
+
+			var tempWinner = highCardRound.cardsPlayed[0].userid;
+
+			tempTimer = setTimeout(function () { // wait for the cards to be dealt to each player + 1.5 second before showing the winner
+
+				$('#player-' + tempWinner).find('.card').addClass('winner'); // highlight the winner's current card
+
+			}, (playerCount * dealDelayInterval) + 1500);
+
+			game.started = true; // since we will now be successfully exiting the pre-game, indicate that the game has started
+
+		}
 
     };
 
@@ -466,7 +535,7 @@
 		});
 
 		// in prod code this should be set by a check using Firebase Auth
-		currentUser = game.playerList[2].username;
+		currentUser = game.playerList[2].userid;
 
 		// /end dev code
 
@@ -478,18 +547,16 @@
 
     	initializeEventListeners();
 
-    	printScoreboardCardTable(); // display scoreboard and card table
-
     	debugLog(' /end start game');
 
     	showHighCardDeal(); // load high card deal show function to show first dealer
 
     },
-    showHighCardDeal = function () { // deal 1 card to each player to choose first dealer
+    showHighCardDeal = function () { // show high card deal card to choose first dealer
 
     	debugLog('show high card deal called');
 
-		game.started = true; // since this is the first round, indicate that the game has started
+    	printCardTable(); // display scoreboard and card table
 
 		var t = setTimeout(dealSomeCards, 1000); // deal some cards after a short delay
 
