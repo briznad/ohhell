@@ -202,41 +202,13 @@
 			if (!dealDelayTimer) dealDelayTimer = setInterval(executeDelayedFunction, dealDelayInterval);
 
 	    },
-        updateCurrentRound = function () { // run at the beginning of each round, starting with the first round fo play
-
-        	if ( currentRound === ( game.rounds.length / 2 ) ) { // game over
-
-        		game.ended = true;
-
-        	} else {
-
-        		currentRound++;
-
-        		_.each(game.rounds, function (value, index) {
-
-					if (index === currentRound) {
-						value['started'] = true;
-						value['currentRound'] = true;
-					} else {
-						value['currentRound'] = false;
-					}
-
-				});
-
-				$body.removeClass('round-high-card-deals round-' + (currentRound - 1) ).addClass('round-' + currentRound);
-
-				printScoreboardCardTable(); // print table
-
-        	}
-
-		},
 		initializeEventListeners = function () {
 
 			$scoreboardContainer.on('click', $showHideScoreboardLink, function (e) {
 
 				e.preventDefault();
 
-				$(this).toggleClass('hide-scoreboard');
+				$(this).toggleClass('show-hide-scoreboard');
 
 			});
 
@@ -302,7 +274,39 @@
 
 			return _.shuffle(deck);
 
-        };
+        },
+        updateCurrentRound = function (callback) { // run at the beginning of each round, starting with the first round fo play
+
+        	if (currentRound + 1 === game.rounds.length) { // game over
+
+        		game.ended = true;
+
+        		debugLog('Game Over!');
+
+        	} else {
+
+        		currentRound++;
+
+        		_.each(game.rounds, function (value, index) {
+
+					if (currentRound === index) {
+						value['started'] = true;
+						value['currentRound'] = true;
+					} else {
+						value['currentRound'] = false;
+					}
+
+				});
+
+				$body.removeClass('cards-' + game.rounds[currentRound - 1].cards).addClass('cards-' + game.rounds[currentRound].cards);
+
+				printScoreboardCardTable(); // print table
+
+				return callback();
+
+        	}
+
+		};
 
     /* /load global objects */
 
@@ -457,9 +461,7 @@
 					tempWinners = _.pluck(_.filter(highCardRound.cardsPlayed, function (value) { return value.card == highCardRound.cardsPlayed[0].card; }), 'userid'),
 					tempTimer = setTimeout(function () {
 
-						// after dealing fresh cards to the tying players, send it back to the client's "show high card deal" function
-
-						showHighCardDeal();
+						showHighCardDeal(); // after dealing fresh cards to the tying players, send it back to the client's "show high card deal" function
 
 						clearTimeout(tempTimer);
 
@@ -495,7 +497,7 @@
 
 			tempTimer = setTimeout(tieBreaker, (playerCount * dealDelayInterval) + 1500); // wait for the round to be dealt to all players + 1.5 second before running the tie breaker round
 
-		} else { // annoint the winner with rare oils
+		} else { // annoint the winner with oils
 
 			var tempWinner = highCardRound.cardsPlayed[0].userid;
 
@@ -503,11 +505,24 @@
 
 				$('#player-' + tempWinner).find('.card').addClass('winner'); // highlight the winner's current card
 
+				tempTimer = setTimeout(function () { // wait for 1.5 seconds before moving on
+
+					showRound(); // after noting the winner, send it back to the client's "show round" function
+
+				}, 1500);
+
 			}, (playerCount * dealDelayInterval) + 1500);
 
 			game.started = true; // since we will now be successfully exiting the pre-game, indicate that the game has started
 
 		}
+
+		debugLog(game);
+
+    },
+    scoreRound = function () {
+
+    	debugLog('score round ' + currentRound + ' called');
 
     };
 
@@ -543,8 +558,6 @@
 
     	rotateTable(); // rotate the each of "game.rounds[].players" arrays so that the client player is at index 0, and will therefore be "seated" at the bottom of the table
 
-    	$body.addClass('start-game round-high-card-deals player-count-' + game.playerList.length); // identifiy the number of players sitting at the table
-
     	initializeEventListeners();
 
     	debugLog(' /end start game');
@@ -556,22 +569,37 @@
 
     	debugLog('show high card deal called');
 
+    	$body.addClass('start-game cards-1'); // identifiy that the game has begun and the number of cards in the current round
+
     	printCardTable(); // display scoreboard and card table
 
 		var t = setTimeout(dealSomeCards, 1000); // deal some cards after a short delay
 
 		if (gameReferee) scoreHighCardDeal();
 
-		debugLog(game);
+		//debugLog(game);
 
     },
     showRound = function () { // deal each round
 
-    	debugLog('show round called');
+    	debugLog('show round ' + (currentRound + 1) + ' called');
 
-		updateCurrentRound(); // update current round
+		updateCurrentRound(function () { // update current round, then execute the callback to do other stuff
 
-		var t = setTimeout(dealSomeCards, 1000); // deal some cards after a short delay
+			var t = setTimeout(dealSomeCards, 1000); // deal some cards after a short delay
+
+			playRound();
+
+	    	//debugLog(game);
+
+		});
+
+    },
+    playRound = function () { // deal each round
+
+    	debugLog('play round ' + currentRound + ' called');
+
+		if (gameReferee) scoreRound();
 
     	debugLog(game);
 

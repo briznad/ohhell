@@ -277,18 +277,18 @@ body {
 	display: none;
 }
 
-.round-3 .players-hand .card,
-.round-4 .players-hand .card {
+.cards-3 .players-hand .card,
+.cards-4 .players-hand .card {
 	margin-left: -23.5%;
 }
 
-.round-5 .players-hand .card,
-.round-6 .players-hand .card {
+.cards-5 .players-hand .card,
+.cards-6 .players-hand .card {
 	margin-left: -23.4%;
 }
 
-.round-7 .players-hand .card,
-.round-8 .players-hand .card {
+.cards-7 .players-hand .card,
+.cards-8 .players-hand .card {
 	margin-left: -23.3%;
 }
 
@@ -297,45 +297,44 @@ body {
 }
 
 .deal-complete .players-hand .card {
-	-webkit-transition: box-shadow 0.5s ease-in-out, margin-left 0.5s ease-in-out;
-    -moz-transition: box-shadow 0.5s ease-in-out, margin-left 0.5s ease-in-out;
-    -ms-transition: box-shadow 0.5s ease-in-out, margin-left 0.5s ease-in-out;
-    -o-transition: box-shadow 0.5s ease-in-out, margin-left 0.5s ease-in-out;
-    transition: box-shadow 0.5s ease-in-out, margin-left 0.5s ease-in-out;
+	-webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
 
     margin-left: -27%;
 }
 
-.round-high-card-deals .players-hand .card:first-child,
-.round-1 .players-hand .card:first-child {
+.cards-1 .players-hand .card:first-child {
 	margin-left: 39.5%;
 }
 
-.round-2 .players-hand .card:first-child {
+.cards-2 .players-hand .card:first-child {
 	margin-left: 41%;
 }
 
-.round-3 .players-hand .card:first-child {
+.cards-3 .players-hand .card:first-child {
 	margin-left: 43%;
 }
 
-.round-4 .players-hand .card:first-child {
+.cards-4 .players-hand .card:first-child {
 	margin-left: 45%%;
 }
 
-.round-5 .players-hand .card:first-child {
+.cards-5 .players-hand .card:first-child {
 	margin-left: 47%;
 }
 
-.round-6 .players-hand .card:first-child {
+.cards-6 .players-hand .card:first-child {
 	margin-left: 49.5%;
 }
 
-.round-7 .players-hand .card:first-child {
+.cards-7 .players-hand .card:first-child {
 	margin-left: 52%;
 }
 
-.round-8 .players-hand .card:first-child {
+.cards-8 .players-hand .card:first-child {
 	margin-left: 55%;
 }
 
@@ -345,51 +344,51 @@ body {
 		font-size: 31.5px;
 	}
 
-	.round-3 .player:first-child .players-hand .card:first-child,
-	.round-4 .player:first-child .players-hand .card:first-child,
-	.round-5 .player:first-child .players-hand .card:first-child,
-	.round-6 .player:first-child .players-hand .card:first-child,
-	.round-7 .player:first-child .players-hand .card:first-child,
-	.round-8 .player:first-child .players-hand .card:first-child,
-	.round-3 .deal-complete .player:first-child .players-hand .card:first-child,
-	.round-4 .deal-complete .player:first-child .players-hand .card:first-child,
-	.round-5 .deal-complete .player:first-child .players-hand .card:first-child,
-	.round-6 .deal-complete .player:first-child .players-hand .card:first-child,
-	.round-7 .deal-complete .player:first-child .players-hand .card:first-child,
-	.round-8 .deal-complete .player:first-child .players-hand .card:first-child {
+	.cards-3 .player:first-child .players-hand .card:first-child,
+	.cards-4 .player:first-child .players-hand .card:first-child,
+	.cards-5 .player:first-child .players-hand .card:first-child,
+	.cards-6 .player:first-child .players-hand .card:first-child,
+	.cards-7 .player:first-child .players-hand .card:first-child,
+	.cards-8 .player:first-child .players-hand .card:first-child,
+	.cards-3 .deal-complete .player:first-child .players-hand .card:first-child,
+	.cards-4 .deal-complete .player:first-child .players-hand .card:first-child,
+	.cards-5 .deal-complete .player:first-child .players-hand .card:first-child,
+	.cards-6 .deal-complete .player:first-child .players-hand .card:first-child,
+	.cards-7 .deal-complete .player:first-child .players-hand .card:first-child,
+	.cards-8 .deal-complete .player:first-child .players-hand .card:first-child {
 		margin-left: 69%;
 	}
 
-	.round-2 .player:first-child .players-hand .card:first-child,
-	.round-2 .deal-complete .player:first-child .players-hand .card:first-child {
+	.cards-2 .player:first-child .players-hand .card:first-child,
+	.cards-2 .deal-complete .player:first-child .players-hand .card:first-child {
 		margin-left: 55%;
 	}
 
-	.round-2 .deal-complete .player:first-child .players-hand .card {
+	.cards-2 .deal-complete .player:first-child .players-hand .card {
 		margin-left: -55%;
 	}
 
-	.round-3 .deal-complete .player:first-child .players-hand .card {
+	.cards-3 .deal-complete .player:first-child .players-hand .card {
 		margin-left: -52%;
 	}
 
-	.round-4 .deal-complete .player:first-child .players-hand .card {
+	.cards-4 .deal-complete .player:first-child .players-hand .card {
 		margin-left: -42.5%;
 	}
 
-	.round-5 .deal-complete .player:first-child .players-hand .card {
+	.cards-5 .deal-complete .player:first-child .players-hand .card {
 		margin-left: -37.5%;
 	}
 
-	.round-6 .deal-complete .player:first-child .players-hand .card {
+	.cards-6 .deal-complete .player:first-child .players-hand .card {
 		margin-left: -34.5%;
 	}
 
-	.round-7 .deal-complete .player:first-child .players-hand .card {
+	.cards-7 .deal-complete .player:first-child .players-hand .card {
 		margin-left: -32.5%;
 	}
 
-	.round-8 .deal-complete .player:first-child .players-hand .card {
+	.cards-8 .deal-complete .player:first-child .players-hand .card {
 		margin-left: -31%;
 	}
 
@@ -405,22 +404,23 @@ body {
 	position: absolute;
 	top: 20px;
 	z-index: 2;
+	padding-left: 13px;
+	background-color: rgb(127, 176, 176);
+	background-color: rgba(127, 176, 176, 0.8);
 
 	border-top-left-radius: 0;
 	border-bottom-left-radius: 0;
 	border-top-right-radius: 0;
+
+	left: -100%;
 }
 
-.scoreboard-container.span4 {
+.show-hide-scoreboard .scoreboard-container.span4 {
 	left: -68.08510638297872%;
 }
 
-.scoreboard-container.span5 {
+.show-hide-scoreboard .scoreboard-container.span5 {
 	left: -59.574468085106375%;
-}
-
-.hide-scoreboard .scoreboard-container {
-	left: -100%;
 }
 
 .show-hide-scoreboard-link {
@@ -429,6 +429,10 @@ body {
 	position: absolute;
 	top: -20px;
 	border-left: none;
+	background-color: rgb(127, 176, 176);
+	background-color: rgba(127, 176, 176, 0.8);
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
 }
 
 .span4 .show-hide-scoreboard-link {
@@ -436,20 +440,24 @@ body {
 }
 
 .span5 .show-hide-scoreboard-link {
-	left: 102.7%;
-}
-
-.show-hide-scoreboard-link.well {
-	border-top-right-radius: 4px;
+	left: 103%;
 }
 
 .scoreboard {
 	margin-bottom: 0;
+	border-right: none;
 }
 
 .scoreboard th,
 .scoreboard td {
 	text-align: center;
+	background-color: rgb(255, 255, 255);
+	background-color: rgba(255, 255, 255, 0.8);
+}
+
+.scoreboard th:last-child,
+.scoreboard td:last-child {
+	border-right: 1px solid #dddddd;
 }
 
 .scoreboard .bid-take-question {
